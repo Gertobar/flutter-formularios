@@ -1,6 +1,7 @@
 import 'package:forms_app/features/presentation/screens/bloc_counter_screen.dart';
 import 'package:forms_app/features/presentation/screens/cubit_counter_screen.dart';
 import 'package:forms_app/features/presentation/screens/home_screen.dart';
+import 'package:forms_app/features/presentation/screens/register_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(
@@ -18,6 +19,11 @@ routes: [
   GoRoute(
     path: '/counter-bloc',
     builder: (context, state) => const BlocCounterScreen(),
+    ),
+
+  GoRoute(
+    path: '/new-user',
+    builder: (context, state) => const RegisterScreen(),
     )
 ]
 );
