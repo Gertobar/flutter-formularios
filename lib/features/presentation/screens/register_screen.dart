@@ -49,69 +49,39 @@ class _RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<_RegisterForm> {
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
 
     final registerCubit = context.watch<RegisterCubit>();
+    final username = registerCubit.state.username;
+    final email = registerCubit.state.email;
+    final password = registerCubit.state.password;
 
     return Form(
-      key: _formKey,
       child: Column(
         children: [
           CustomTextFormFied(
             label: 'User name',
-            onChanged: (value) {
-              registerCubit.usernameChanged(value);
-              _formKey.currentState?.validate();
-            },
-            validator: (value) {
-              if(value == null || value.isEmpty) return 'required field';
-              if(value.trim().isEmpty) return 'required field';
-              if(value.length < 6) return 'more than 6 characters';
-               return null;
-            },
+            onChanged: registerCubit.usernameChanged,
+            errorMessage: username.errorMessage,
             ),
           const SizedBox(height: 10),
           CustomTextFormFied(
             label: 'email',
-            onChanged: (value) {
-              registerCubit.emailChanged(value);
-              _formKey.currentState?.validate();
-            } ,
-            validator: (value) {
-              if(value == null || value.isEmpty) return 'required field';
-              if(value.trim().isEmpty) return 'required field';
-              final emailRegExp = RegExp(
-                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                );
-              if(!emailRegExp.hasMatch(value)) return 'It is not in email format';
-               return null;
-            }
+            onChanged: registerCubit.emailChanged,
+            errorMessage: email.errorMessage,
             ),
           const SizedBox(height: 10),
           CustomTextFormFied(
             label: 'Password',
-            onChanged: (value) {
-              registerCubit.passwordChanged(value);
-              _formKey.currentState?.validate();
-            },
+            onChanged: registerCubit.passwordChanged,
             obscureText: true,
-            validator: (value) {
-              if(value == null || value.isEmpty) return 'required field';
-              if(value.trim().isEmpty) return 'required field';
-              if(value.length < 6) return 'more than 6 characters';
-               return null;
-            },
+            errorMessage: password.errorMessage
             ),
 
           const SizedBox(height: 20),
           FilledButton.tonalIcon(
             onPressed: () {
-
-              final isValid = _formKey.currentState!.validate();
-              if(!isValid) return;
 
               registerCubit.onSubmit();
             },
